@@ -1,6 +1,11 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { devtools } from "zustand/middleware";
 
-const useCartStore = create((set) => ({
+const useCartStore = create(
+    devtools(
+        persist(
+            (set) => ({
 
     cartItems: [],
 
@@ -41,7 +46,13 @@ const useCartStore = create((set) => ({
         }
     }),
     clearCart: () => set({ cartItems: [] }),
-}));
+            }),
+            {
+                name: "cart-storage", // name of the item in storage
+            }
+        )
+    )
+);
 
 export default useCartStore;
 
